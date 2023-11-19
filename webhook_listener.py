@@ -65,7 +65,7 @@ async def test_webhook(request: Request, simulated_webhook=None) -> HTMLResponse
                 simulated_webhook = {"invalid_json": True}
     pretty_webhook = json.dumps(simulated_webhook, indent=4)
     return templates.TemplateResponse(
-        "test_webhook.html", {"request": request, "simulated_webhook": simulated_webhook},
+        "test_webhook.html", {"request": request, "simulated_webhook": pretty_webhook},
         status_code=200
     )
 
