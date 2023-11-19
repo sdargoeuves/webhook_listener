@@ -1,0 +1,86 @@
+html, body {
+    min-height: 100%;
+    background-color: #c0e0c0;
+}
+
+body, div, form, input, p {
+    padding: 0;
+    margin: 0;
+    outline: none;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 26px;
+    color: #444;
+}
+
+h1 {
+    font-weight: 400;
+    font-size: 52px;
+    margin: 20px 0;
+}
+
+h2 {
+    font-weight: 300;
+    font-size: 38px;
+    margin: 10px 0;
+}
+
+h4 {
+    margin: 25px 0 5px;
+}
+
+.testbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: inherit;
+    padding: 3px;
+    background-color: #c0e0c0;
+}
+
+form {
+    width: 100%;
+    padding: 20px;
+    background-color: #c0e0c0;
+    box-shadow: 0 2px 5px #ccc;
+}
+
+input {
+    width: auto;
+    margin-right: 15px;
+    vertical-align: middle;
+}
+
+.question-answer label {
+    display: block;
+}
+
+textarea {
+    width: calc(100% - 12px);
+    padding: 5px;
+}
+
+textarea:hover {
+    outline: none;
+    border: 1px solid #095484;
+}
+
+.btn-block {
+    margin-top: 20px;
+    text-align: center;
+}
+
+button {
+    /* width: 400px; */
+    padding: 15px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    background-color: #959a96;
+    font-size: 28px;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #003180;
+}

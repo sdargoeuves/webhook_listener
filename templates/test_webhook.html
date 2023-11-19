@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Arista CloudVision & IP Fabric</title>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+        <link rel="icon" type="image/png" href="/static/favicon.png" sizes="64x64">
+        <link rel="stylesheet" href="/static/css/sent.css">
+        <meta charset="UTF-8">
+        <style>
+            .json-block {
+                white-space: pre-wrap;
+                display: none;
+                background-color: #97bcde;
+                font-size: 15px;
+                font-family: "Courier New", monospace;
+
+            }
+            .toggle-button {
+                background-color: #528dc3;
+                border: none;
+                cursor: pointer;
+                outline: none;
+                display: flex;
+                align-items: center;
+            }
+            .toggle-arrow {
+                width: 0;
+                height: 0;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 5px solid blue;
+                transition: transform 0.3s ease;
+                margin-right: 5px;
+            }
+            .toggle-arrow.open {
+                transform: rotate(180deg);
+            }
+        </style>
+        <script>
+            function toggleJsonVisibility() {
+                var jsonBlock = document.getElementById("json-block");
+                var arrow = document.getElementById("toggle-arrow");
+    
+                if (jsonBlock.style.display === "none") {
+                    jsonBlock.style.display = "block";
+                    arrow.classList.add("open");
+                } else {
+                    jsonBlock.style.display = "none";
+                    arrow.classList.remove("open");
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        <h1>WEBHOOK has been sent...</h1>
+        <!-- <pre>{{ simulated_webhook }}</pre> -->
+        <button class="toggle-button" onclick="toggleJsonVisibility()">
+            <span class="toggle-arrow" id="toggle-arrow"></span>
+            Toggle JSON visibility
+        </button>
+        <pre id="json-block" class="json-block">{{ simulated_webhook }}</pre>
+        <br>
+        <button onclick="window.location.href='/'">Return back home</button>
+    </body>
+</html>

@@ -1,0 +1,112 @@
+[
+    {
+        "acknowledged": false,
+        "components": [
+            {
+                "deviceId": "SN_084fa9000004",
+                "entityId": "SN_084fa9000004",
+                "hostname": "v1xsw04",
+                "tags": {
+                    "Container": {
+                        "IPF-Lab": {},
+                        "Tenant": {}
+                    },
+                    "bgp": {
+                        "enabled": {}
+                    },
+                    "device": {
+                        "SN_084fa9000004": {},
+                        "v1xsw04": {},
+                        "v1xsw04-SN_084fa9000004": {}
+                    },
+                    "eos": {
+                        "4.29.4M": {}
+                    },
+                    "eostrain": {
+                        "4.29": {}
+                    },
+                    "hostname": {
+                        "v1xsw04": {}
+                    },
+                    "mlag": {
+                        "disabled": {}
+                    },
+                    "model": {
+                        "vEOS-lab": {}
+                    },
+                    "mpls": {
+                        "true": {}
+                    },
+                    "ospf": {
+                        "1-enabled": {}
+                    },
+                    "pim": {
+                        "disabled": {}
+                    },
+                    "pimbidir": {
+                        "disabled": {}
+                    },
+                    "serialnumber": {
+                        "SN_084fa9000004": {}
+                    },
+                    "sflow": {
+                        "disabled": {}
+                    },
+                    "systype": {
+                        "fixed": {}
+                    },
+                    "tapagg": {
+                        "none": {}
+                    },
+                    "terminattr": {
+                        "v1.25.1": {}
+                    },
+                    "topology_hint_network_type": {
+                        "datacenter": {}
+                    },
+                    "topology_hint_type": {
+                        "leaf": {}
+                    },
+                    "topology_network_type": {
+                        "datacenter": {}
+                    },
+                    "topology_pod": {
+                        "v1xsw01-v1xsw02": {}
+                    },
+                    "topology_rack": {
+                        "v1xsw04": {}
+                    },
+                    "topology_type": {
+                        "leaf": {}
+                    },
+                    "type": {
+                        "device": {}
+                    },
+                    "vrf": {
+                        "tenant": {}
+                    },
+                    "vxlanConfigured": {
+                        "true": {}
+                    },
+                    "vxlanEnabled": {
+                        "true": {}
+                    },
+                    "ztp": {
+                        "false": {}
+                    }
+                },
+                "type": "device"
+            }
+        ],
+        "description": "Device SN_084fa9000004 is no longer streaming to CloudVision.",
+        "event_type": "SYS_DEVICE_INACTIVE",
+        "fired_at": "2023-11-18T23:12:43.019280791Z",
+        "is_firing": true,
+        "is_test": false,
+        "key": "c52597997a552742",
+        "resolved_at": "0001-01-01T00:00:00Z",
+        "severity": "ERROR",
+        "source": "https://www.cv-prod-euwest-2.arista.io/cv/events/c52597997a552742/1700349163019280791",
+        "title": "Device Stopped Streaming"
+    }
+]
