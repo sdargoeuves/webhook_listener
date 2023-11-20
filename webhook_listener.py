@@ -1,6 +1,6 @@
 import asyncio
 import json
-import pathlib
+import sys
 from datetime import datetime, timezone
 from typing import List
 
@@ -12,21 +12,21 @@ from fastapi.templating import Jinja2Templates
 from modules.AristaCvp import AristaCvpWebhook
 from modules.functions import action_ipfabric, write_logs
 
+LOG_FOLDER = "logs"
+DEFAULT_PORT = 8080
+USE_NGROK = True
+
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
-LOG_FOLDER = "logs"
 
 
 @app.get("/")
 async def home_page(request: Request):
-# # async def get(request: Request):
-#     timestamp = f"{datetime.now(timezone.utc).isoformat()}"
-#     today_log_file = f"log_{timestamp[:10]}.txt"
     context = {"title": "Arista CloudVision & IP Fabric"}
-    return templates.TemplateResponse("index.html", {"request": request, "context": context}, status_code=200)
-    # html_content = pathlib.Path("static/index.html").read_text()
-    # return HTMLResponse(content=html_content, status_code=200)
+    return templates.TemplateResponse(
+        "index.html", {"request": request, "context": context}, status_code=200
+    )
 
 
 @app.post("/ipf-webhook")
@@ -95,37 +95,37 @@ async def websocket_endpoint_log(websocket: WebSocket):
     finally:
         await websocket.close()
 
+
 @app.get("/logs")
 async def get(request: Request):
     timestamp = f"{datetime.now(timezone.utc).isoformat()}"
     today_log_file = f"log_{timestamp[:10]}.txt"
-    context = {"title": "AristaCVP Webhook - Log Viewer over WebSockets", "log_file": f"{LOG_FOLDER}/{today_log_file}"}
-    return templates.TemplateResponse("log.html", {"request": request, "context": context})
+    context = {
+        "title": "AristaCVP Webhook - Log Viewer over WebSockets",
+        "log_file": f"{LOG_FOLDER}/{today_log_file}",
+        "port": DEFAULT_PORT,
+    }
+    return templates.TemplateResponse(
+        "log.html", {"request": request, "context": context}
+    )
 
-# @app.get("/simulate-cvp-webhook2", response_class=HTMLResponse)
-# async def test_webhook2(request: Request, simulated_webhooks=None) -> HTMLResponse:
-#     if simulated_webhooks is None:
-#         with open("static/webhook_example_down.json", "r") as file:
-#             try:
-#                 simulated_webhooks = json.load(file)  # Parse the JSON data
-#             except json.JSONDecodeError:
-#                 simulated_webhooks = [{"invalid_json": True}]
-#     pretty_webhook = json.dumps(simulated_webhooks, indent=4)
-#     # encoded_data = simulated_webhooks.encode('utf-8')
-#     headers = {
-#         'accept': 'application/json',
-#         'Content-Type': 'application/json',
-#         'Location': '/ipf-webhook'
-#     }
-#     # return Response(content=pretty_webhook, status_code=307, headers=headers)
-#     response = httpx.post("http://localhost:8081/ipf-webhook", headers=headers, data=pretty_webhook)
-#     if response.status_code == 202:
-#         return templates.TemplateResponse(
-#             "test_webhook.html",
-#             {"request": request, "simulated_webhook": pretty_webhook},
-#             status_code=200,
-#         )
+def main():
+    # start ngrok and show the URL to use
+    if USE_NGROK:
+        # pyngrok should only ever be installed or initialized in a dev environment when this flag is set
+        from pyngrok import ngrok
+        # Get the dev server port (defaults to 8000 for Uvicorn, can be overridden with `--port`
+        # when starting the server
+        port = sys.argv[sys.argv.index("--port") + 1] if "--port" in sys.argv else DEFAULT_PORT
 
+        # Open a ngrok tunnel to the dev server
+        public_url = ngrok.connect(port).public_url
+        print(f'ngrok tunnel \"{public_url}\" -> \"http://127.0.0.1:{port}\"')
+
+        # Update any base URLs or webhooks to use the public ngrok URL
+        # settings.BASE_URL = public_url
+        # init_webhooks(public_url)
+    uvicorn.run(app, host="0.0.0.0", port=DEFAULT_PORT, log_level="info")
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8081, log_level="debug")
+    main()
