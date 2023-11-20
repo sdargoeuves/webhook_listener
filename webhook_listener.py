@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     LOG_FOLDER: str = "logs"
     BASE_URL: str = "http://localhost"
     DEFAULT_PORT: int = 8080
-    USE_NGROK: bool = True
+    USE_NGROK: bool = False
 
 
 settings = Settings()
@@ -138,7 +138,7 @@ def main():
         )
         # Update any base URLs or webhooks to use the public ngrok URL
         settings.BASE_URL = public_url
-    uvicorn.run(app, host="0.0.0.0", port=settings.DEFAULT_PORT, log_level="info")
+    uvicorn.run(app, host="0.0.0.0", port=settings.DEFAULT_PORT, log_level="debug")
 
 
 if __name__ == "__main__":
