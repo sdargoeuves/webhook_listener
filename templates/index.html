@@ -24,5 +24,16 @@
         <div class="button_log">
             <button onclick="window.location.href='/logs'">Check logs</button>
         </div>
+        <div class="note-container">
+            <p class="note-heading"><strong>Important Note:</strong> 'Check logs' only works without ngrok.</p>
+            <p class="note-content">
+                With ngrok, use the inspect link to see the logs.<br>
+                From your local machine, run the following command in a terminal:<br>
+                <code>ssh -N -L 4040:127.0.0.1:4040 user@server</code><br>
+                Then, open <a href="http://127.0.0.1:4040/inspect/http" target="_blank">http://127.0.0.1:4040/inspect/http</a><br>
+            </p>
+        </div>
+        
+
     </body>
 </html>

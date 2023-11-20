@@ -28,6 +28,36 @@ h4 {
     margin: 25px 0 5px;
 }
 
+.note-container {
+    padding: 15px;
+}
+
+.note-heading {
+    font-size: 20px;
+}
+
+.note-heading strong {
+    font-weight: bold;
+}
+
+.note-content {
+    padding: 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 18px;
+    color: #4a4a4a;
+}
+
+.note-content code {
+    background-color: #b1b0b0;
+    padding: 2px 4px;
+}
+
+.note-content a {
+    color: #1278d2;
+    text-decoration: none;
+}
+
+
 .testbox {
     display: flex;
     justify-content: center;
