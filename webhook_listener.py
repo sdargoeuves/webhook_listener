@@ -111,7 +111,7 @@ async def get(request: Request):
     context = {
         "title": "AristaCVP Webhook - Log Viewer over WebSockets",
         "log_file": f"{settings.LOG_FOLDER}/{today_log_file}",
-        "base_url": settings.BASE_URL,
+        "base_url": settings.BASE_URL.replace("http://", "").replace("https://", ""),
         "port": settings.DEFAULT_PORT,
     }
     return templates.TemplateResponse(
