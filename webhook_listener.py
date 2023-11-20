@@ -42,7 +42,6 @@ async def receive_webhook(
     request: Request, cvp_webhooks: List[AristaCvpWebhook]
 ) -> HTMLResponse:
     # data = await request.json()
-    print(f"Webhook sent by Arista: {cvp_webhooks}")
     timestamp = f"{datetime.now(timezone.utc).isoformat()}"
     write_logs(timestamp, cvp_webhooks, settings.LOG_FOLDER)
     action_ipfabric(timestamp, cvp_webhooks)
