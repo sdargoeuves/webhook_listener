@@ -15,10 +15,10 @@ from modules.functions import action_ipfabric, write_logs
 
 
 class Settings(BaseSettings):
-    LOG_FOLDER = "logs"
-    BASE_URL = "http://localhost"
-    DEFAULT_PORT = 8080
-    USE_NGROK = True
+    LOG_FOLDER: str = "logs"
+    BASE_URL: str = "http://localhost"
+    DEFAULT_PORT: int = 8080
+    USE_NGROK: bool = True
 
 
 settings = Settings()
