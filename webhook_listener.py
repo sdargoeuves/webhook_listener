@@ -17,7 +17,7 @@ from modules.functions import action_ipfabric, write_logs
 class Settings(BaseSettings):
     LOG_FOLDER: str = "logs"
     BASE_URL: str = "http://localhost"
-    DEFAULT_PORT: int = 8080
+    DEFAULT_PORT: int = 8088
     USE_NGROK: bool = False
 
 

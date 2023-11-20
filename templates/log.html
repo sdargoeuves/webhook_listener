@@ -31,7 +31,7 @@
     </div>
 
     <script>
-      var ws_log = new WebSocket("ws://localhost:8080/ws/log");
+      var ws_log = new WebSocket("ws://{{ context.base_url }}:{{ context.port }}/ws/log");
 
       ws_log.onmessage = function (event) {
         var logs = document.getElementById("logs");
