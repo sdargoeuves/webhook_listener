@@ -28,6 +28,30 @@ h4 {
     margin: 25px 0 5px;
 }
 
+
+#logs {
+    background-color: #474747;
+    border: 1px solid #ccc;
+    padding: 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 15px;
+    color: #ffffff;
+  }
+
+#logs .error-line {
+    color: #ff6347;
+  }
+  
+#logs .warning-line {
+    color: #f9bf3b;
+  }
+#logs .test-line{
+    color: #87d37c;
+  }
+#logs .regular-line {
+    color: #eeeeee !important;
+  }
+
 .testbox {
     display: flex;
     justify-content: center;

@@ -1,18 +1,28 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Arista CloudVision & IP Fabric</title>
+        <title>{{context.title}}</title>
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
         <link rel="icon" type="image/png" href="/static/favicon.png" sizes="64x64">
         <link rel="stylesheet" href="/static/css/main.css">
     </head>
     <body>
-        <h1>IP Fabric & Arista CloudVision</h1>
-        <h2>Webhook Listener</h2>
+        <img
+            class="float-right py-3 px-5"
+            src="/static/favicon.png"
+        />
+        <div class="flex items-center py-2 px-3">
+            <h1 class="text-3xl text-slate-300">{{context.title}}</h1>
+        </div>
+        <div>
+            <h2>Send Fake Webhook</h2>
+        </div>
         <button onclick="window.location.href='/simulate-cvp-webhook'">Simulate CVP Webhook</button>
-        <!-- <form method="POST" action="/simulate-cvp-webhook">
-            <button type="submit">Simulate CVP Webhook</button>
-        </form> -->
+        <br />
+        <br />
+        <div class="button_log">
+            <button onclick="window.location.href='/logs'">Check logs</button>
+        </div>
     </body>
 </html>

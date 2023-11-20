@@ -6,27 +6,18 @@ from ipfabric import IPFClient
 from .AristaCvp import AristaCvpWebhook
 
 
-def write_logs(timestamp: str, cvp_webhooks: AristaCvpWebhook):
-    log_folder = "logs"
-    os.makedirs(log_folder, exist_ok=True)
+def write_logs(timestamp: str, cvp_webhooks: AristaCvpWebhook, log_folder: str):
     """
     Writes the given AristaCvpWebhook object to a log file with the specified timestamp.
 
     Args:
         timestamp (str): The timestamp to be included in the log line.
         cvp_webhook: The AristaCvpWebhook object to be logged.
-
-    Returns:
-        None
-
-    Raises:
-        -
-
-    Examples:
-        write_logs("2022-01-01T12:00:00Z", cvp_webhook)
     """
+    os.makedirs(log_folder, exist_ok=True)
     log_line = f"{timestamp} {cvp_webhooks}"
 
+    # We create a new log file for each day
     log_file_path = os.path.join(log_folder, f"log_{timestamp[:10]}.txt")
 
     with open(log_file_path, "a") as log_file:

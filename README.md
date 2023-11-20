@@ -65,3 +65,7 @@ The application utilizes the following dependencies:
 ## Support
 
 If you have any questions or need further assistance, please create an issue on the [repository](https://github.com/your/repository).
+
+## Inspiration
+
+The concept of reading the log files via Websocket was inspired by [Coenraad Pretorius' blog](https://h3xagn.com/create-a-streaming-log-viewer-using-fastapi/)

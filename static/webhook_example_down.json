@@ -105,7 +105,7 @@
         "is_test": false,
         "key": "c52597997a552742",
         "resolved_at": "0001-01-01T00:00:00Z",
-        "severity": "ERROR",
+        "severity": "TEST",
         "source": "https://www.cv-prod-euwest-2.arista.io/cv/events/c52597997a552742/1700349163019280791",
         "title": "Device Stopped Streaming"
     }
