@@ -20,13 +20,8 @@ LOG_FOLDER = "logs"
 
 @app.get("/")
 async def home_page(request: Request):
-# # async def get(request: Request):
-#     timestamp = f"{datetime.now(timezone.utc).isoformat()}"
-#     today_log_file = f"log_{timestamp[:10]}.txt"
     context = {"title": "Arista CloudVision & IP Fabric"}
     return templates.TemplateResponse("index.html", {"request": request, "context": context}, status_code=200)
-    # html_content = pathlib.Path("static/index.html").read_text()
-    # return HTMLResponse(content=html_content, status_code=200)
 
 
 @app.post("/ipf-webhook")
@@ -34,7 +29,6 @@ async def receive_webhook(
     request: Request, cvp_webhooks: List[AristaCvpWebhook]
 ) -> HTMLResponse:
     # data = await request.json()
-    print(f"Webhook sent by Arista: {cvp_webhooks}")
     timestamp = f"{datetime.now(timezone.utc).isoformat()}"
     write_logs(timestamp, cvp_webhooks, LOG_FOLDER)
     action_ipfabric(timestamp, cvp_webhooks)
@@ -102,30 +96,5 @@ async def get(request: Request):
     context = {"title": "AristaCVP Webhook - Log Viewer over WebSockets", "log_file": f"{LOG_FOLDER}/{today_log_file}"}
     return templates.TemplateResponse("log.html", {"request": request, "context": context})
 
-# @app.get("/simulate-cvp-webhook2", response_class=HTMLResponse)
-# async def test_webhook2(request: Request, simulated_webhooks=None) -> HTMLResponse:
-#     if simulated_webhooks is None:
-#         with open("static/webhook_example_down.json", "r") as file:
-#             try:
-#                 simulated_webhooks = json.load(file)  # Parse the JSON data
-#             except json.JSONDecodeError:
-#                 simulated_webhooks = [{"invalid_json": True}]
-#     pretty_webhook = json.dumps(simulated_webhooks, indent=4)
-#     # encoded_data = simulated_webhooks.encode('utf-8')
-#     headers = {
-#         'accept': 'application/json',
-#         'Content-Type': 'application/json',
-#         'Location': '/ipf-webhook'
-#     }
-#     # return Response(content=pretty_webhook, status_code=307, headers=headers)
-#     response = httpx.post("http://localhost:8081/ipf-webhook", headers=headers, data=pretty_webhook)
-#     if response.status_code == 202:
-#         return templates.TemplateResponse(
-#             "test_webhook.html",
-#             {"request": request, "simulated_webhook": pretty_webhook},
-#             status_code=200,
-#         )
-
-
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8081, log_level="debug")
+    uvicorn.run(app, host="0.0.0.0", port=8080, log_level="debug")
