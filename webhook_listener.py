@@ -17,8 +17,7 @@ from modules.functions import action_ipfabric, write_logs
 class Settings(BaseSettings):
     LOG_FOLDER: str = "logs"
     BASE_URL: str = "http://localhost"
-    DEFAULT_PORT: int = 8082
-    DEFAULT_PORT_WS: int = 8082
+    DEFAULT_PORT: int = 8080
     USE_NGROK: bool = False
 
 
@@ -93,8 +92,6 @@ async def log_reader(n=1):
 @app.websocket("/ws/log")
 async def websocket_endpoint_log(websocket: WebSocket):
     await websocket.accept()
-    port = websocket.client.port
-    print(f"Client at :{port} connected")
     try:
         while True:
             await asyncio.sleep(1)
@@ -114,7 +111,7 @@ async def get(request: Request):
         "title": "AristaCVP Webhook - Log Viewer over WebSockets",
         "log_file": f"{settings.LOG_FOLDER}/{today_log_file}",
         "base_url": settings.BASE_URL.replace("http://", "").replace("https://", ""),
-        "port_ws": settings.DEFAULT_PORT_WS,
+        "port": settings.DEFAULT_PORT,
     }
     return templates.TemplateResponse(
         "log.html", {"request": request, "context": context}
