@@ -52,10 +52,10 @@ async def test_webhook(request: Request, simulated_webhooks=None) -> HTMLRespons
     # edit timestamp of the file, and comment to show it's a TEST
     # ...
     write_logs(timestamp, simulated_webhooks, settings.LOG_FOLDER)
-    action_ipfabric(timestamp, simulated_webhooks, settings)
+    discovery_status = action_ipfabric(timestamp, simulated_webhooks, settings)
     return templates.TemplateResponse(
         "test_webhook.html",
-        {"request": request, "simulated_webhook": pretty_webhook},
+        {"request": request, "simulated_webhook": pretty_webhook, "discovery_status": discovery_status},
         status_code=200,
     )
 

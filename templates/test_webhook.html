@@ -55,13 +55,16 @@
 
     <body>
         <h1>WEBHOOK has been sent...</h1>
-        <!-- <pre>{{ simulated_webhook }}</pre> -->
+        <div id="logs">
+            <span class="regular-line">{{ discovery_status }}</span><br/>
+        </div> 
+        <br/>
         <button class="toggle-button" onclick="toggleJsonVisibility()">
             <span class="toggle-arrow" id="toggle-arrow"></span>
             Toggle JSON visibility
         </button>
         <pre id="json-block" class="json-block">{{ simulated_webhook }}</pre>
-        <br>
+        <br/>
         <button onclick="window.location.href='/'">Return back home</button>
     </body>
 </html>

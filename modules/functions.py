@@ -26,14 +26,18 @@ def write_logs(timestamp: str, cvp_webhooks: AristaCvpWebhook, log_folder: str):
 
 def action_ipfabric(timestamp: str, cvp_webhook: AristaCvpWebhook, settings: Settings):
     print("##DEBUG## action_ipfabric")
-    for webhook in cvp_webhook:
-        print(f'##DEBUG## {webhook["is_firing"]}')
-        if webhook["is_firing"]:
+    webhook = cvp_webhook[0]
+    print(f'##DEBUG## {webhook["is_firing"]}')
+    if webhook["is_firing"]:
+        try:
             ipf = IPFClient(base_url=settings.IPF_URL, token=settings.IPF_TOKEN)
             ipf_settings = {
                 "snapshotName": "Discovery by CloudVision webhook",
                 "notes": webhook.description,
             }
             ipf.post("snapshots", json=ipf_settings)
+        except Exception as e:
+            print(f"##DEBUG## Exception: {e}")
+            return f"Discovery failed: {e}"
 
-    return True
+    return "Discovery statrted"
