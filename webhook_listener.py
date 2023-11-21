@@ -129,7 +129,6 @@ def main():
         print(
             f'ngrok tunnel "{public_url}" -> "http://127.0.0.1:{settings.HTTP_PORT}"'
         )
-        print("Web Interface URL: ", ngrok.get_tunnels().web_url)
         # Update any base URLs or webhooks to use the public ngrok URL
         settings.BASE_URL = public_url
     uvicorn.run(app, host="0.0.0.0", port=settings.HTTP_PORT, log_level="debug")
