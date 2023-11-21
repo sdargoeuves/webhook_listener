@@ -114,7 +114,7 @@ def main():
     if settings.USE_NGROK:
         # pyngrok should only ever be installed or initialized in a dev environment when this flag is set
         from pyngrok import ngrok
-        from pyngrok.conf import PyngrokConfig
+        # from pyngrok.conf import PyngrokConfig
 
         # Get the server port (defaults to 8000 for Uvicorn, can be overridden with `--port`
         settings.HTTP_PORT = (
@@ -122,8 +122,8 @@ def main():
             if "--port" in sys.argv
             else settings.HTTP_PORT
         )
-        config = PyngrokConfig(web_addr="localhost:4040")
-        ngrok.set_default(config)
+        # config = PyngrokConfig(web_addr="localhost:4040")
+        # ngrok.set_default(config)
         # Open a ngrok tunnel to the dev server
         public_url = ngrok.connect(settings.HTTP_PORT).public_url
         print(
