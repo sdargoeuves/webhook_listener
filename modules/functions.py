@@ -31,13 +31,10 @@ def action_ipfabric(timestamp: str, cvp_webhook: AristaCvpWebhook, settings: Set
     if webhook["is_firing"]:
         try:
             ipf = IPFClient(base_url=settings.IPF_URL, token=settings.IPF_TOKEN)
-            ipf_settings = {
-                "snapshotName": "Discovery by CloudVision webhook",
-                "notes": webhook.description,
-            }
+            ipf_settings = {"snapshotName": f"{webhook['title']}-{webhook['components'][0]['hostname']}"}
             ipf.post("snapshots", json=ipf_settings)
         except Exception as e:
             print(f"##DEBUG## Exception: {e}")
             return f"Discovery failed: {e}"
 
-    return "Discovery statrted"
+    return "IP Fabric's discovery has started!"

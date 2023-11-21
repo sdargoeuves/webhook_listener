@@ -1,13 +1,15 @@
 import os
+from dotenv import load_dotenv, find_dotenv
 from typing import Any, Dict, List
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
 from datetime import datetime
 
+load_dotenv(find_dotenv(), override=True)
 
 class Settings(BaseSettings):
-    LOG_FOLDER: str = os.getenv("LOG_FOLDER","logs")
     BASE_URL: str = "http://localhost"
+    LOG_FOLDER: str = os.getenv("LOG_FOLDER","logs")
     HTTP_PORT: int = int(os.getenv("HTTP_PORT", 8080))
     USE_NGROK: bool = eval(os.getenv("USE_NGROK", 'False').title())
 
