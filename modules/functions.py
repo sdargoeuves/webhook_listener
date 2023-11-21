@@ -30,7 +30,7 @@ def action_ipfabric(timestamp: str, cvp_webhook: AristaCvpWebhook, settings: Set
     print(f'##DEBUG## {webhook["is_firing"]}')
     if webhook["is_firing"]:
         try:
-            ipf = IPFClient(base_url=settings.IPF_URL, token=settings.IPF_TOKEN)
+            ipf = IPFClient(base_url=settings.IPF_URL, token=settings.IPF_TOKEN, verify=settings.IPF_VERIFY)
             ipf_settings = {"snapshotName": f"{webhook['title']}-{webhook['components'][0]['hostname']}"}
             ipf.post("snapshots", json=ipf_settings)
         except Exception as e:
