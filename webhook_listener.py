@@ -2,7 +2,7 @@ import asyncio
 import json
 import sys
 from datetime import datetime, timezone
-from pydantic_settings import BaseSettings
+
 from typing import List
 
 import uvicorn
@@ -10,19 +10,10 @@ from fastapi import FastAPI, Request, WebSocket
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from modules.AristaCvp import AristaCvpWebhook
+from modules.classDefinitions import AristaCvpWebhook, Settings
 from modules.functions import action_ipfabric, write_logs
 
-
-class Settings(BaseSettings):
-    LOG_FOLDER: str = "logs"
-    BASE_URL: str = "http://localhost"
-    DEFAULT_PORT: int = 8080
-    USE_NGROK: bool = False
-
-
 settings = Settings()
-
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -44,7 +35,7 @@ async def receive_webhook(
     # data = await request.json()
     timestamp = f"{datetime.now(timezone.utc).isoformat()}"
     write_logs(timestamp, cvp_webhooks, settings.LOG_FOLDER)
-    action_ipfabric(timestamp, cvp_webhooks)
+    action_ipfabric(timestamp, cvp_webhooks, settings)
     return HTMLResponse(content="<h3>IPF Webhook Received</h3>", status_code=202)
 
 
@@ -61,6 +52,7 @@ async def test_webhook(request: Request, simulated_webhooks=None) -> HTMLRespons
     # edit timestamp of the file, and comment to show it's a TEST
     # ...
     write_logs(timestamp, simulated_webhooks, settings.LOG_FOLDER)
+    action_ipfabric(timestamp, simulated_webhooks, settings)
     return templates.TemplateResponse(
         "test_webhook.html",
         {"request": request, "simulated_webhook": pretty_webhook},
@@ -110,7 +102,7 @@ async def get(request: Request):
         "title": "AristaCVP Webhook - Log Viewer over WebSockets",
         "log_file": f"{settings.LOG_FOLDER}/{today_log_file}",
         "base_url": settings.BASE_URL.replace("http://", "").replace("https://", ""),
-        "port": settings.DEFAULT_PORT,
+        "port": settings.HTTP_PORT,
     }
     return templates.TemplateResponse(
         "log.html", {"request": request, "context": context}
@@ -125,22 +117,22 @@ def main():
         from pyngrok.conf import PyngrokConfig
 
         # Get the server port (defaults to 8000 for Uvicorn, can be overridden with `--port`
-        settings.DEFAULT_PORT = (
+        settings.HTTP_PORT = (
             sys.argv[sys.argv.index("--port") + 1]
             if "--port" in sys.argv
-            else settings.DEFAULT_PORT
+            else settings.HTTP_PORT
         )
         config = PyngrokConfig(web_addr="localhost:4040")
         ngrok.set_default(config)
         # Open a ngrok tunnel to the dev server
-        public_url = ngrok.connect(settings.DEFAULT_PORT).public_url
+        public_url = ngrok.connect(settings.HTTP_PORT).public_url
         print(
-            f'ngrok tunnel "{public_url}" -> "http://127.0.0.1:{settings.DEFAULT_PORT}"'
+            f'ngrok tunnel "{public_url}" -> "http://127.0.0.1:{settings.HTTP_PORT}"'
         )
         print("Web Interface URL: ", ngrok.get_tunnels().web_url)
         # Update any base URLs or webhooks to use the public ngrok URL
         settings.BASE_URL = public_url
-    uvicorn.run(app, host="0.0.0.0", port=settings.DEFAULT_PORT, log_level="debug")
+    uvicorn.run(app, host="0.0.0.0", port=settings.HTTP_PORT, log_level="debug")
 
 
 if __name__ == "__main__":

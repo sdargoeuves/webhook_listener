@@ -16,9 +16,9 @@ __pypackages__/
 !ansible/roles/
 !/ansible/roles/**/
 
-# Environment specific files
+# Environment specific files, except the example
 .env
-.env.*
+!.env.example
 
 # IPython
 profile_default/
