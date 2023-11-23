@@ -4,7 +4,6 @@ from ipfabric import IPFClient
 
 from .classDefinitions import AristaCvpWebhook, Settings
 
-from ipdb import set_trace as debug
 
 def write_logs(timestamp: str, cvp_webhooks: AristaCvpWebhook, log_folder: str):
     """
@@ -27,18 +26,21 @@ def write_logs(timestamp: str, cvp_webhooks: AristaCvpWebhook, log_folder: str):
 
 def action_ipfabric(timestamp: str, cvp_webhook: AristaCvpWebhook, settings: Settings):
     print("##DEBUG## action_ipfabric")
-    # print(f"##DEBUG## {cvp_webhook.is_firing}")
     webhook = cvp_webhook[0]
-    debug()
-    if isinstance(webhook, AristaCvpWebhook):
-        print(f"##DEBUG## {webhook.is_firing}")
-        if webhook["is_firing"]:
-            try:
-                ipf = IPFClient(base_url=settings.IPF_URL, token=settings.IPF_TOKEN, verify=settings.IPF_VERIFY)
-                ipf_settings = {"snapshotName": f"{webhook['title']}-{webhook['components'][0]['hostname']}"}
-                ipf.post("snapshots", json=ipf_settings)
-            except Exception as e:
-                print(f"##DEBUG## Exception: {e}")
-                return f"Discovery failed: {e}"
+    if not isinstance(webhook, AristaCvpWebhook) or not webhook.is_firing:
+        return f"Discovery failed, the webhook sent is not valid!\n{webhook}"
 
+    try:
+        ipf = IPFClient(
+            base_url=settings.IPF_URL,
+            token=settings.IPF_TOKEN,
+            verify=settings.IPF_VERIFY,
+        )
+        ipf_settings = {
+            "snapshotName": f"{webhook.title}-{webhook.components[0].hostname}"
+        }
+        ipf.post("snapshots", json=ipf_settings)
+    except Exception as e:
+        print(f"##DEBUG## Exception: {e}")
+        return f"Discovery failed: {e}"
     return "IP Fabric's discovery has started!"

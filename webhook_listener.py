@@ -47,9 +47,11 @@ async def test_webhook(request: Request, simulated_webhooks=None) -> HTMLRespons
     except (FileNotFoundError, json.JSONDecodeError):
         simulated_webhooks = [{"invalid_json": True}]
     else:
-        simulated_webhooks = [AristaCvpWebhook.model_validate(webhook) for webhook in read_json]
+        simulated_webhooks = [
+            AristaCvpWebhook.model_validate(webhook) for webhook in read_json
+        ]
 
-    pretty_webhook = json.dumps(simulated_webhooks, indent=4)
+    # pretty_webhook = json.dumps(simulated_webhooks, indent=4)
     timestamp = f"{datetime.now(timezone.utc).isoformat()}"
     # edit timestamp of the file, and comment to show it's a TEST
     # ...
@@ -57,7 +59,11 @@ async def test_webhook(request: Request, simulated_webhooks=None) -> HTMLRespons
     discovery_status = action_ipfabric(timestamp, simulated_webhooks, settings)
     return templates.TemplateResponse(
         "test_webhook.html",
-        {"request": request, "simulated_webhook": pretty_webhook, "discovery_status": discovery_status},
+        {
+            "request": request,
+            "simulated_webhook": simulated_webhooks,
+            "discovery_status": discovery_status,
+        },
         status_code=200,
     )
 
@@ -116,6 +122,7 @@ def main():
     if settings.USE_NGROK:
         # pyngrok should only ever be installed or initialized in a dev environment when this flag is set
         from pyngrok import ngrok
+
         # from pyngrok.conf import PyngrokConfig
 
         # Get the server port (defaults to 8000 for Uvicorn, can be overridden with `--port`
@@ -126,9 +133,7 @@ def main():
         )
         # Open a ngrok tunnel to the dev server
         public_url = ngrok.connect(settings.HTTP_PORT).public_url
-        print(
-            f'ngrok tunnel "{public_url}" -> "http://127.0.0.1:{settings.HTTP_PORT}"'
-        )
+        print(f'ngrok tunnel "{public_url}" -> "http://127.0.0.1:{settings.HTTP_PORT}"')
         # Update any base URLs or webhooks to use the public ngrok URL
         settings.BASE_URL = public_url
     uvicorn.run(app, host="0.0.0.0", port=settings.HTTP_PORT, log_level="debug")

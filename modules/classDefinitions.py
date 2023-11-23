@@ -7,16 +7,17 @@ from datetime import datetime
 
 load_dotenv(find_dotenv(), override=True)
 
+
 class Settings(BaseSettings):
     BASE_URL: str = "http://localhost"
-    LOG_FOLDER: str = os.getenv("LOG_FOLDER","logs")
+    LOG_FOLDER: str = os.getenv("LOG_FOLDER", "logs")
     HTTP_PORT: int = int(os.getenv("HTTP_PORT", 8080))
-    USE_NGROK: bool = eval(os.getenv("USE_NGROK", 'False').title())
+    USE_NGROK: bool = eval(os.getenv("USE_NGROK", "False").title())
 
     IPF_URL: str = os.getenv("IPF_URL")
     IPF_TOKEN: str = os.getenv("IPF_TOKEN")
     IPF_SNAPSHOT_ID: str = os.getenv("IPF_SNAPSHOT_ID", "$last")
-    IPF_VERIFY: bool = eval(os.getenv("IPF_VERIFY", 'False').title())
+    IPF_VERIFY: bool = eval(os.getenv("IPF_VERIFY", "False").title())
 
 
 class CvpComponent(BaseModel):
