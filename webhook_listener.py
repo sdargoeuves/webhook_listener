@@ -41,12 +41,14 @@ async def receive_webhook(
 
 @app.get("/simulate-cvp-webhook", response_class=HTMLResponse)
 async def test_webhook(request: Request, simulated_webhooks=None) -> HTMLResponse:
-    if simulated_webhooks is None:
+    try:
         with open("static/webhook_example_down.json", "r") as file:
-            try:
-                simulated_webhooks = json.load(file)  # Parse the JSON data
-            except json.JSONDecodeError:
-                simulated_webhooks = [{"invalid_json": True}]
+            read_json = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        simulated_webhooks = [{"invalid_json": True}]
+    else:
+        simulated_webhooks = [AristaCvpWebhook.model_validate(webhook) for webhook in read_json]
+
     pretty_webhook = json.dumps(simulated_webhooks, indent=4)
     timestamp = f"{datetime.now(timezone.utc).isoformat()}"
     # edit timestamp of the file, and comment to show it's a TEST
