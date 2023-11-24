@@ -70,9 +70,9 @@ async def test_webhook(request: Request, simulated_webhooks=None) -> HTMLRespons
 
 async def log_reader(n=1):
     log_lines = []
-    timestamp = f"{datetime.now(timezone.utc).isoformat()}"
-    today_log_file = f"log_{timestamp[:10]}.txt"
-    with open(f"{settings.LOG_FOLDER}/{today_log_file}", "r") as file:
+    # timestamp = f"{datetime.now(timezone.utc).isoformat()}"
+    # today_log_file = f"log_{timestamp[:10]}.txt"
+    with open(f"{settings.LOG_FOLDER}/{settings.LOG_FILE}", "r") as file:
         lines = file.readlines()
         lines.reverse()  # Reverse the order of the lines
         for line in lines[:n]:
@@ -92,10 +92,12 @@ async def log_reader(n=1):
 async def websocket_endpoint_log(websocket: WebSocket):
     await websocket.accept()
     try:
+        first_time = True
         while True:
-            await asyncio.sleep(1)
-            logs = await log_reader(10)
+            await asyncio.sleep(1 if first_time else settings.WEBSOCKET_REFRESH_RATE)
+            logs = await log_reader(settings.NUMBER_OF_LOG_LINES)
             await websocket.send_text(logs)
+            first_time = False
     except Exception as e:
         print(e)
     finally:
@@ -104,11 +106,11 @@ async def websocket_endpoint_log(websocket: WebSocket):
 
 @app.get("/logs")
 async def get(request: Request):
-    timestamp = f"{datetime.now(timezone.utc).isoformat()}"
-    today_log_file = f"log_{timestamp[:10]}.txt"
+    # timestamp = f"{datetime.now(timezone.utc).isoformat()}"
+    # today_log_file = f"log_{timestamp[:10]}.txt"
     context = {
         "title": "AristaCVP Webhook - Log Viewer over WebSockets",
-        "log_file": f"{settings.LOG_FOLDER}/{today_log_file}",
+        "log_file": f"{settings.LOG_FOLDER}/{settings.LOG_FILE}",
         "base_url": settings.BASE_URL.replace("http://", "").replace("https://", ""),
         "port": settings.HTTP_PORT,
     }

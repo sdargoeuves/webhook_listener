@@ -5,4 +5,3 @@ black
 ipfabric
 jinja2
 websocket
-

@@ -17,7 +17,7 @@ def write_logs(timestamp: str, cvp_webhooks: AristaCvpWebhook, log_folder: str):
     log_line = f"{timestamp} {cvp_webhooks}"
 
     # We create a new log file for each day
-    log_file_path = os.path.join(log_folder, f"log_{timestamp[:10]}.txt")
+    log_file_path = os.path.join(log_folder, "logs.txt")
 
     with open(log_file_path, "a") as log_file:
         log_file.write(log_line + "\n")

@@ -11,8 +11,11 @@ load_dotenv(find_dotenv(), override=True)
 class Settings(BaseSettings):
     BASE_URL: str = "http://localhost"
     LOG_FOLDER: str = os.getenv("LOG_FOLDER", "logs")
+    LOG_FILE: str = os.getenv("LOG_FILE", "logs.txt")
     HTTP_PORT: int = int(os.getenv("HTTP_PORT", 8080))
     USE_NGROK: bool = eval(os.getenv("USE_NGROK", "False").title())
+    WEBSOCKET_REFRESH_RATE: int = int(os.getenv("WEBSOCKET_REFRESH_RATE", 10))
+    NUMBER_OF_LOG_LINES: int = int(os.getenv("NUMBER_OF_LOG_LINES", 10))
 
     IPF_URL: str = os.getenv("IPF_URL")
     IPF_TOKEN: str = os.getenv("IPF_TOKEN")
